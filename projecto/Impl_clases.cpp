@@ -14,9 +14,25 @@ Queue::Queue(int queueId){
     this -> rear = NULL;
     this -> front = NULL;
 }
-
+int storeQueue(Person p, int num){
+	fstream f;
+	f.open("queue"+to_string(num)+".csv",std::ios_base::app);
+	string store = "";
+	if(f.good()){
+		store += to_string(num);
+		store += ","+to_string(p.getPassport());
+		store += ","+p.getName();
+		store += ","+p.getSurname();
+		store += ","+p.getNationality();
+		store += ","+p.getAddress();
+		store+="\n";
+		f << store;
+	}
+	f.close();
+}
 void Queue::enqueue(Person p){
-	
+	 
+	storeQueue(p, this->getNo());
     Node* temp = new Node;
 
     temp -> person = p;
@@ -213,36 +229,10 @@ void writeFlight(string line){
 	f.open("reportFlights.csv",  std::ios_base::app);
 	if(f.good()){
 		f << line + "\n";
+		
 	}
 }
-void writeQueue(int num){
-	ofstream f;
-	f.open("queue"+to_string(num)+".csv");
-	if(f){
-		for (std::list<Queue>::iterator i = qlist.begin(); i != qlist.end(); ++i) {
-		if(num == i -> queueNo){
-			Node* p = new Node;
-			p = i -> front;
-			if(i -> front == NULL){
-				cout<<"\nCola vacía.\n";
-			}else{
-				cout << "\nPasajeros esperando en cola: " << endl;
-				cout << left << setw(15) << 
-				"Passport" << left << setw(15) << 
-				"Name" << left << setw(15) << 
-				"Surame" << endl;
-				while(p!=NULL){
-					cout << left << setw(15) << 
-					p -> person.getPassport() << 
-					left << setw(15) << p -> person.getName() << 
-					left << setw(15) << p -> person.getSurname() << endl;
-					p = p -> next;
-				}
-			}
-		}
-	}
-	}
-}
+
 void Flight::addFlight(){ 
 	string store = "";
 	/* ----INITIALISE VARS----*/

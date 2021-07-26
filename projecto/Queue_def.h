@@ -13,7 +13,7 @@ class Queue // class that stores passengers on each flight's queue
 
     private:
 
-	int queueNo;
+		int queueNo;
         Node* rear;
         Node* front;	
 	

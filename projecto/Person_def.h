@@ -25,5 +25,7 @@ class Person //class for managing the functions of a passenger
 		int getPassport() { return this -> passportNo; }
 		string getName() { return this -> name; }
 		string getSurname() { return this -> surname; }
-		
+		string getNationality(){return this->nationallity;}
+		string getAddress(){ return this->address;}
+		int getTel(){return this -> tel;}
 };
