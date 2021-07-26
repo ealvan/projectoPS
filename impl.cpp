@@ -1,4 +1,4 @@
-#include <def.h>
+#include "def.h"
 
 bool checkTime(string time) { // check the validity of the time (must be xx:xx, where x = Natural number)
 	
@@ -678,6 +678,7 @@ bool Flight::checkForSeats(int num){
 					return true;
 		}
 	}
+	return false;
 }
 
 /* ----FUNCTIONS OF CLASS Person---- */	
