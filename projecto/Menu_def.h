@@ -1,4 +1,4 @@
-//Incluye las Cabeceras Generales
+//Incluye las Librerias necesarias
 #include "General_def.h"
 
 class Menu //Clase para controlar el menu de la aplicacion
