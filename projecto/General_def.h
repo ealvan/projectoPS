@@ -2,11 +2,11 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <ctype.h>
-#include <list>	 //double linked list
+#include <list>	 //Doble linked list
 #include <iostream>
-#include <string> // for the atoi conversion
-#include <sstream> // for the stringstream (used to convert into to string)
-#include <iomanip> // for organizing output into columns
+#include <string> // Para la conversion del atoi 
+#include <sstream> // Para el stringstream (usado para convertirlo en string)
+#include <iomanip> // Para organizar la salida en columnas
 #include <vector>
 using namespace std;
 

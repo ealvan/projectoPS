@@ -1,9 +1,10 @@
+//Incluye las Librerias necesarias
 #include "General_def.h"
 
-class Menu //class for managing the app's menu
+class Menu //Clase para controlar el menu de la aplicacion
 {
 	public:
-		static void displayMenu(); // displays the menu
-		static void select(int selection); // receives user's input and performs the corresponding function
-		static void exit_prog(); // exits the app
+		static void displayMenu(); // Muestra el Menu
+		static void select(int selection); // Recive las seleccion ingresada del usuario y realiza la funcion correspondiente
+		static void exit_prog(); // Cierra la aplicacion
 };
