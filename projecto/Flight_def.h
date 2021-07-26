@@ -1,6 +1,7 @@
+//Incluye las librerias necesarias
 #include "General_def.h"
 
-struct Time //Estructura para controlar los horariosd e LLegada y de Salida
+struct Time //Estructura para controlar los horarios de LLegada y de Salida
 {
 	int min; 
 	int hour;
@@ -21,14 +22,14 @@ class Flight //Clase para controlar las funciones disponibles de un vuelo
 		
 		/* --MOSTRAR VUELOS--*/
 		static void displayFlightInfo(int num); //Muestra la informacion de un Vuelo (Opcion del Menu Νο 3)
-		static void displaySchedule(); //Muestra los vuelos registrados en el sistemaa (Opcion del Menu Νο 4)
+		static void displaySchedule(); //Muestra los vuelos registrados en el sistema (Opcion del Menu Νο 4)
 		
 		/* --RESERVAR ASIENTOS--*/
-		static void resSeat(int num, int val); //Modifica los asientos reservados de un vueloo
+		static void resSeat(int num, int val); //Modifica los asientos reservados de un vuelo
 		
 		/* --REVISAR VUELOS--*/
-		static bool flightExists(int num); //Comprobar si el vuelo esta Reservado	
-		static bool checkForSeats(int num); //Comprueba por vuelos registros en el sistema
+		static bool flightExists(int num); //Comprueba si el vuelo ingresado esta Reservado	
+		static bool checkForSeats(int num); //Comprueba por los asientos de los vuelos registrados en el sistema
 		
 		/* --GETTERS--*/
 		int getFlightNo() { return this -> flightNo; }
