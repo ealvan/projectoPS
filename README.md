@@ -1,4 +1,3 @@
-# Airline-Reservation-System
-Simple Airline Reservation System in C++ using basic data structures (queues, linked lists).
+# Sistema de Reservacion de un aeropuerto
 
-Part of my Unviversity's course "Data Structures". Final Score 5/5.
+Universidad Nacional San Agustin
