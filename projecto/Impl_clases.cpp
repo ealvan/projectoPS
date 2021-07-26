@@ -42,7 +42,6 @@ void Queue::dequeue(){
 }
 
 void Queue::display(int num){
-	
 
 	for (std::list<Queue>::iterator i = qlist.begin(); i != qlist.end(); ++i) {
 		if(num == i -> queueNo){
@@ -64,9 +63,6 @@ void Queue::display(int num){
 			}
 		}
 	}
-
-    
-
 }
 
 Person Queue::oldest(){
@@ -76,7 +72,7 @@ Person Queue::oldest(){
 
 bool Queue::isEmpty(){
  if(this -> front == NULL && this -> rear == NULL){
-  return true;
+  	return true;
  }
  
  return false;
@@ -217,6 +213,34 @@ void writeFlight(string line){
 	f.open("reportFlights.csv",  std::ios_base::app);
 	if(f.good()){
 		f << line + "\n";
+	}
+}
+void writeQueue(int num){
+	ofstream f;
+	f.open("queue"+to_string(num)+".csv");
+	if(f){
+		for (std::list<Queue>::iterator i = qlist.begin(); i != qlist.end(); ++i) {
+		if(num == i -> queueNo){
+			Node* p = new Node;
+			p = i -> front;
+			if(i -> front == NULL){
+				cout<<"\nCola vacía.\n";
+			}else{
+				cout << "\nPasajeros esperando en cola: " << endl;
+				cout << left << setw(15) << 
+				"Passport" << left << setw(15) << 
+				"Name" << left << setw(15) << 
+				"Surame" << endl;
+				while(p!=NULL){
+					cout << left << setw(15) << 
+					p -> person.getPassport() << 
+					left << setw(15) << p -> person.getName() << 
+					left << setw(15) << p -> person.getSurname() << endl;
+					p = p -> next;
+				}
+			}
+		}
+	}
 	}
 }
 void Flight::addFlight(){ 
