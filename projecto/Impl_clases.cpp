@@ -1,4 +1,5 @@
 #include "General_impl.cpp"
+#include <fstream>
 /* 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ 
 																IMPLEMENTATION	 
@@ -23,7 +24,7 @@ void Queue::enqueue(Person p){
 
     if(this -> front == NULL){
        this -> front = temp;
-   }else{
+    }else{
         this -> rear -> next = temp;
     }
     this -> rear = temp;
@@ -211,9 +212,15 @@ void Menu::exit_prog(){
 }
 
 /* ----FUNCTIONS OF CLASS Flight---- */
-
+void writeFlight(string line){
+	fstream f;
+	f.open("reportFlights.csv",  std::ios_base::app);
+	if(f.good()){
+		f << line + "\n";
+	}
+}
 void Flight::addFlight(){ 
-	
+	string store = "";
 	/* ----INITIALISE VARS----*/
 	bool flag = false; // used in loops
 	
@@ -245,12 +252,13 @@ void Flight::addFlight(){
 			getline(cin, temp);
 		}else if (Flight::flightExists( atoi(temp.c_str()) )) {
 			cout << "¡Este vuelo ya existe!" << endl;
-			cout << "Introduzca un número de vuelo válido." << endl;
+			cout << "Introduzca un número de vuelo válido!:" << endl;
 			flag = false;
 			getline(cin, temp);
 		}else {
 			flag = true;
 			this -> flightNo = atoi(temp.c_str());
+			store += temp;
 		}
 	}while(!flag);
 	
@@ -263,9 +271,10 @@ void Flight::addFlight(){
 		getline(cin, temp);
 		if ( (temp.length() <= 10) && (checkString(temp)) ){
 			this -> from = temp;
+			store+=","+temp;
 			flag = true;
 		}else {
-			cout << "Introduzca una ciudad de salida válida! ";
+			cout << "Introduzca una ciudad de salida válida!: ";
 			goto LOOP;
 		}
 	}while(!flag);
@@ -280,6 +289,7 @@ void Flight::addFlight(){
 		if ( (temp.length() <= 10) && (checkString(temp)) && (temp.compare(this -> from)) ){
 			this -> to = temp;
 			flag = true;
+			store +=","+ temp;
 		}else{
 			cout << "Introduzca una ciudad de destino válida! ";
 			goto LOOP2;
@@ -318,6 +328,7 @@ void Flight::addFlight(){
 		if ((hour >=0 && hour<=23) && (min>=0 && min <=59)){ 
 			this -> t_leave.hour = hour; 
 			this -> t_leave.min = min; 
+			store += ","+to_string(hour)+":"+to_string(min);
 			flag = true;
 		}else{
 			cout << "Introduzca una hora de embarque válida (por ejemplo, 19:40).";
@@ -360,6 +371,7 @@ void Flight::addFlight(){
 			this -> t_arrive.hour = hour; 
 			this -> t_arrive.min = min; 
 			flag = true;
+			store += ","+to_string(hour)+":"+to_string(min);
 		}else{
 			cout << "Introduzca una hora de llegada válida (por ejemplo, 19:40).";
 			fields.clear();		
@@ -382,6 +394,7 @@ void Flight::addFlight(){
 		}else{
 			flag = true;
 			this -> cost = atoi(temp.c_str());
+			store += ","+temp;
 		}
 	}while(!flag);
 	
@@ -392,6 +405,7 @@ void Flight::addFlight(){
 		cout << "Introduzca un tipo de avión válido!" << endl;
 		getline(cin, this -> plane_type);
 	}
+	store += ","+this->plane_type;
 	
 	/* --No OF SEATS-- */
 	cout << "Numero de asientos: ";
@@ -408,6 +422,7 @@ void Flight::addFlight(){
 		}else{
 			flag = true;
 			this -> seats = atoi(temp.c_str());
+			store += ","+temp;
 		}
 	}while(!flag);
 	
@@ -430,6 +445,7 @@ void Flight::addFlight(){
 		}else {
 			flag = true;
 			this -> booked_seats = atoi(temp.c_str());
+			store += ","+temp;
 		}
 	}while(!flag);
 	cout << endl;
@@ -441,7 +457,7 @@ void Flight::addFlight(){
 	qlist.push_back(q); // add object to the qlist
 	
 	cout << "N° de vuelo: "<< this -> flightNo << " fue agregado exitosamente!" << endl;
-	
+	writeFlight(store);
 }
 
 void Flight::deleteFlight(int num){
@@ -1084,3 +1100,4 @@ bool Person::uniquePass(int passport){
 	}
 	return true;
 }
+
