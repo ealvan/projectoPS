@@ -14,7 +14,7 @@ Queue::Queue(int queueId){
     this -> rear = NULL;
     this -> front = NULL;
 }
-int storeQueue(Person p, int num){
+void storeQueue(Person p, int num){
 	fstream f;
 	f.open("queue"+to_string(num)+".csv",std::ios_base::app);
 	string store = "";
@@ -31,7 +31,7 @@ int storeQueue(Person p, int num){
 	f.close();
 }
 void Queue::enqueue(Person p){
-	 
+	cout << "Se encolo con exito" <<endl;
 	storeQueue(p, this->getNo());
     Node* temp = new Node;
 
@@ -229,7 +229,6 @@ void writeFlight(string line){
 	f.open("reportFlights.csv",  std::ios_base::app);
 	if(f.good()){
 		f << line + "\n";
-		
 	}
 }
 
@@ -658,7 +657,7 @@ void Person::book(){
 	cin.ignore(256,'\n');
 	
 	if (!flist.empty()) {
-		cout << "Inserte 'y' (si) para un nuevo cliente o 'n' (no) para un cliente existente.";
+		cout << "Inserte 'y' (si) para un nuevo cliente o 'n' (no) para un cliente existente: ";
 		getline(cin, choice);
 		
 		// enter if client is new
