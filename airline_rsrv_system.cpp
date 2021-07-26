@@ -280,7 +280,10 @@ void Queue::display(int num){
 				cout<<"\nCola vacía.\n";
 			}else{
 				cout << "\nPasajeros esperando en cola: " << endl;
-				cout << left << setw(15) << "Passport" << left << setw(15) << "Name" << left << setw(15) << "Surame" << endl;
+				cout << left << setw(15) << 
+				"Passport" << left << setw(15) << 
+				"Name" << left << setw(15) << 
+				"Surame" << endl;
 				while(p!=NULL){
 					cout << left << setw(15) << p -> person.getPassport() << left << setw(15) << p -> person.getName() << left << setw(15) << p -> person.getSurname() << endl;
 					p = p -> next;
@@ -719,8 +722,26 @@ void Flight::displayFlightInfo(int num){
 			convert2 << i -> t_arrive.min;		 
 			a_time = convert.str() + ":" + convert2.str();
 			
-			cout << left << setw(10) << "VUELO" << left << setw(10) << "DESDE" << left << setw(10) << "A" << left << setw(10) << "SALIDA" << left << setw(10) << "LLEGADA" << left << setw(10) << "PRECIO" << left << setw(10) << "TIPO" << left << setw(10) << "ASIENTOS" << left << setw(10) << "RESERVADO" << endl;
-			cout << left << setw(10) << i -> flightNo << left << setw(10) << i -> from << left << setw(10) << i -> to << left << setw(10) << l_time << left << setw(10) << a_time << left << setw(10) << i -> cost << left << setw(10) << i -> plane_type << left << setw(10) << i -> seats << left << setw(10) << i -> booked_seats << endl;
+			cout << left << setw(10) << 
+			"VUELO" << left << setw(10) << 
+			"DESDE" << left << setw(10) << 
+			"A" << left << setw(10) << 
+			"SALIDA" << left << setw(10) << 
+			"LLEGADA" << left << setw(10) << 
+			"PRECIO" << left << setw(10) << 
+			"TIPO" << left << setw(10) << 
+			"ASIENTOS" << left << setw(10) << 
+			"RESERVADO" << endl;
+			cout << left << setw(10) << 
+			i -> flightNo << left << setw(10) << 
+			i -> from << left << setw(10) << 
+			i -> to << left << setw(10) << 
+			l_time << left << setw(10) << 
+			a_time << left << setw(10) << 
+			i -> cost << left << setw(10) << 
+			i -> plane_type << left << setw(10) << 
+			i -> seats << left << setw(10) << 
+			i -> booked_seats << endl;
 			
 			Queue::display(num);
 			return;
@@ -737,7 +758,16 @@ void Flight::displaySchedule(){
 	stringstream convert2; 
 	 
 		cout << "\n\t\t\t\t HORARIO DE VUELO" << endl << endl;
-		cout << left << setw(10) << "VUELO" << left << setw(10) << "DESDE" << left << setw(10) << "A" << left << setw(10) << "SALIDA" << left << setw(10) << "LLEGADA" << left << setw(10) << "PRECIO" << left << setw(10) << "TIPO" << left << setw(10) << "ASIENTOS" << left << setw(10) << "RESERVADO" << endl;
+		cout << left << setw(10) << 
+		"VUELO" << left << setw(10) << 
+		"DESDE" << left << setw(10) << 
+		"A" << left << setw(10) << 
+		"SALIDA" << left << setw(10) << 
+		"LLEGADA" << left << setw(10) << 
+		"PRECIO" << left << setw(10) << 
+		"TIPO" << left << setw(10) << 
+		"ASIENTOS" << left << setw(10) << 
+		"RESERVADO" << endl;
 		
 		for (std::list<Flight>::iterator i = flist.begin(); i != flist.end(); ++i) {
 				convert.str(std::string());	// clear stringstream "convert"
@@ -754,7 +784,16 @@ void Flight::displaySchedule(){
 				convert2 << i -> t_arrive.min;		 
 				a_time = convert.str() + ":" + convert2.str();
 				
-				cout << left << setw(10) << i -> flightNo << left << setw(10) << i -> from << left << setw(10) << i -> to << left << setw(10) << l_time << left << setw(10) << a_time << left << setw(10) << i -> cost << left << setw(10) << i -> plane_type << left << setw(10) << i -> seats << left << setw(10) << i -> booked_seats << endl;
+				cout << left << setw(10) << 
+				i -> flightNo << left << setw(10) << 
+				i -> from << left << setw(10) << 
+				i -> to << left << setw(10) << 
+				l_time << left << setw(10) << 
+				a_time << left << setw(10) << 
+				i -> cost << left << setw(10) << 
+				i -> plane_type << left << setw(10) << 
+				i -> seats << left << setw(10) << 
+				i -> booked_seats << endl;
 		}
 		
 		cout << endl;
