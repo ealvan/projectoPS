@@ -1,4 +1,4 @@
-//Incluyendo cabeceras generales
+//Incluyendo las librerias necesarias
 #include "General_def.h"
 
 
