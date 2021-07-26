@@ -1,37 +1,38 @@
+//Librerias necesarias
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <ctype.h>
-#include <list>	 //double linked list
+#include <list>	 //Doble linked list
 #include <iostream>
-#include <string> // for the atoi conversion
-#include <sstream> // for the stringstream (used to convert into to string)
-#include <iomanip> // for organizing output into columns
+#include <string> // Para la conversion de atoi
+#include <sstream> // Para el stringstream (usado para convertirlo en string)
+#include <iomanip> // Para organizar la salida en columnas
 #include <vector>
 using namespace std;
 
-// forward declaration
+// Declaraciones de la parte delantera
 class Person; 
 class Flight;
 class Queue;
 
-/* ----CLASSES---- */
+/* ----CLASES---- */
 
-class Menu //class for managing the app's menu
+class Menu //Clase para controlar el menu de la aplicacion
 {
 	public:
-		static void displayMenu(); // displays the menu
-		static void select(int selection); // receives user's input and performs the corresponding function
-		static void exit_prog(); // exits the app
+		static void displayMenu(); // Muestra el menu
+		static void select(int selection); //Recive la entrada del usuario y ejecuta la funcion correspondiente
+		static void exit_prog(); // Cierra la aplicacion
 };
 
-struct Time // structure for managing the Arrival and Departing times
+struct Time //Estructura para controlar los horrarios de llegada y de salida
 {
 	int min; 
 	int hour;
 };
 
-class Flight // class for managing the availabe functions of a flight
+class Flight //Clase para controlar las funciones disponibles de un vuelo
 {				
 	private:
 	
@@ -40,20 +41,20 @@ class Flight // class for managing the availabe functions of a flight
 		Time t_leave, t_arrive;
 		
 	public:
-		/* --ADD/REMOVE FLIGHTS--*/
-		void addFlight(); //διαχειρίζεται την προσθήκη πτήσεων (επιλογή μενού Νο 1)
-		static void deleteFlight(int num); //διαχειρίζεται την αφαίρεση πτήσεων (επιλογή μενού Νο 2)
+		/* --ANADE/ELIMINA VUELOS--*/
+		void addFlight(); //Gestiona la adicion de vuelos (Opcion del Menu Νο 1)
+		static void deleteFlight(int num); //Gestiona la eliminacion de vuelos (Opcion del menu Νο 2)
 		
-		/* --DISPLAY FLIGHTS--*/
-		static void displayFlightInfo(int num); //προβάλλει τις πληροφορίες μιας πτήσης (επιλογή μενού Νο 3)
-		static void displaySchedule(); //προβάλλει τις πτήσεις που υπάρχουν καταχωρημένες στο σύστημα (επιλογή μενού Νο 4)
+		/* --MUESTRA LOS VUELOS--*/
+		static void displayFlightInfo(int num); //Muestra la informacion ded un vuelo (Opcion del menu Νο 3)
+		static void displaySchedule(); //Muestra los vuelos registrados en el sistema (Opcion del menu Νο 4)
 		
-		/* --BOOK SEATS--*/
-		static void resSeat(int num, int val); //αυξομειώνει τις κατοχυρωμένες θέσεις μιας πτήσεις
+		/* --RESERVAR ASIENTOS--*/
+		static void resSeat(int num, int val); //Flucuta los asientos reservados de un vuelo
 		
-		/* --FLIGHT CHECKERS--*/
-		static bool flightExists(int num); // check flight is booked	
-		static bool checkForSeats(int num); // checks for already registerd flight in the system
+		/* --COMPROBAR VUELOS--*/
+		static bool flightExists(int num); // Comprueba si el vuelo esta reservado
+		static bool checkForSeats(int num); // Comprueba por vuelos que ya esten registrados en el sistema
 		
 		/* --GETTERS--*/
 		int getFlightNo() { return this -> flightNo; }
@@ -63,7 +64,7 @@ class Flight // class for managing the availabe functions of a flight
 		string getDestination() { return this -> to; }
 };			
 	
-class Person //class for managing the functions of a passenger				
+class Person //Clase para controlar las acciones de un pasajero				
 {
 	private:
 	
@@ -72,16 +73,16 @@ class Person //class for managing the functions of a passenger
 		string name, surname, nationallity, address;		
 	
 	public:
-		/* --BOOK FLIGHT-- */
-		void book(); // book flight for each customer (Menu Option Νο 6)
-		void bookFromQueue(int num); // book flight for the oldest customer in 
-					    // (call ONLY when a reservation is cancelled)
-		void cancel(); //cancel a reservation (Menu Option Νο 7)
+		/* --RESERVAR VUELOS-- */
+		void book(); // Reserva un vuelo para cada cliente (Opcion del Menu Νο 6)
+		void bookFromQueue(int num); // Reserva un vuelo para el cliente mas antiguo 
+					    // (llamado SOLO cuando una reservacion es cancelada)
+		void cancel(); //Cancela una reservacion (Opcion del Menu Νο 7)
 		
-		/* --SHOW PASSENGER'S INFO-- */
+		/* --MUESTRA LA INFORMACION DE UN PASAJERO-- */
 		static bool displayPersonInfo(int passport);
 		
-		/* --CHECHKER FOR UNIQUE PASSPORT-- */
+		/* --COMPRUEBA SI EL PASAPORTE ES UNICO-- */
 		static bool uniquePass(int passport);
 		
 		/* --GETTERS-- */
@@ -91,13 +92,13 @@ class Person //class for managing the functions of a passenger
 		
 };	
 
-struct Node //structure for managing each flight's queue
+struct Node //Estructura para manejar cada cola de cada vuelo
 {
     Person person;
     Node* next;
 };
 
-class Queue // class that stores passengers on each flight's queue
+class Queue //Clase que almacena los pasajeros en cada cola de cada vuelo
 {
 
     private:
@@ -107,22 +108,22 @@ class Queue // class that stores passengers on each flight's queue
         Node* front;	
 	
 	public:
-		/* --CREATE NEW QUEUE-- */
-        Queue(int queueId); // queueID is the same as the flight number for each flight
+		/* --CREA UNA NUEVA COLA-- */
+        Queue(int queueId); // queueID es la misma que el numero de vuelo de cada vuelo
 		
-		/* --ADD/REMOVE ELEMENTS-- */
-        void enqueue(Person p); // add a new passenger
-        void dequeue(); // remove the passenger add last 
+		/* --ANADE ELIMINA ELEMENTOS-- */
+        void enqueue(Person p); // Anade un nuevo pasajero
+        void dequeue(); // Elimina el pasajero ultimo en anadir
 		
-		/* --ΠΡΟΒΟΛΗ ΣΤΟΙΧΕΙΩΝ ΟΥΡΑΣ-- */
-		static void display(int num); //εμφανίζει τους πελάτες, που βρίσκονται κατοχυρωμένοι 
-									 //στην ουρά αναμονής της εκάστοτε πτήσης
+		/* --VISUALIZACION DE DATOS-- */
+		static void display(int num); //Muestra a los clientes registrados
+						//en la cola de espera de cada vuelo
 
-		/* --ΕΠΙΣΤΡΟΦΗ ΑΡΧΑΙΟΤΕΡΟΥ ΧΡΗΣΤΗ-- */
-		Person oldest(); //επιστρέφει το αντικέιμενο του αρχαιότερου πελάτη, μέσω της κλάσης Person
+		/* --DEVOLUCION DEL USUARIO MAS ANTIGUO-- */
+		Person oldest(); //Devuele el objeto del usuario mas antiguo,a traves de la clase Person
 		
-		/* --CHECK FOR EMPTY QUEUE-- */
-		bool isEmpty(); // returns true if queue is empty
+		/* --COMPRUEBA SI LA FILA ESTA VACIA-- */
+		bool isEmpty(); // Retorna true si la fila esta vacia
 		
 		/* --GETTERS-- */
 		int getNo() { return this -> queueNo; }	
