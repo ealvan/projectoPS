@@ -1,11 +1,11 @@
 //Incluyendo las librerias necesarias
 #include "General_def.h"
 
-
-
 struct Node //Estructura para controlar cada cola de vuelos
 {
+    //La persona registrada en la cola del vuelo
     Person person;
+    //La persona que esta despues de la actual de la cola del vuelo
     Node* next;
 };
 
@@ -13,9 +13,11 @@ class Queue //Clase se que alamcena a los pasajeros en la cola de cada vuelo
 {
 
     private:
-
+	//Numero de la cola
 	int queueNo;
+	//Nodo que almacena a la ultima Persona en la cola
         Node* rear;
+	//Nodo que almacena a la 1era persona en la cola
         Node* front;	
 	
 	public:
