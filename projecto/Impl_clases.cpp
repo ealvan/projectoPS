@@ -71,8 +71,8 @@ void Queue::display(int num){
 				cout << "\nPasajeros esperando en cola: " << endl;
 				cout << left << setw(15) << 
 				"Passport" << left << setw(15) << 
-				"Name" << left << setw(15) << 
-				"Surame" << endl;
+				"Nombre" << left << setw(15) << 
+				"Apellido" << endl;
 				while(p!=NULL){
 					cout << left << setw(15) << p -> person.getPassport() << left << setw(15) << p -> person.getName() << left << setw(15) << p -> person.getSurname() << endl;
 					p = p -> next;
@@ -144,10 +144,10 @@ void  Menu::select(int selection){
 	string temp; // Variable para almacenar lo ingresado por el usuario
 	
 	switch(selection){
-		case 1:
+		case 1://agregar flught
 			f.addFlight();
 			break;
-		case 2:
+		case 2://eliminar flight
 			if (!flist.empty()) {
 				cout << "Ingrese el número de vuelo que desea eliminar:"; cin >> temp;
 				cout << endl;
@@ -165,7 +165,7 @@ void  Menu::select(int selection){
 			}
 						
 			break;
-		case 3:
+		case 3://mostra horario de vuelo
 			if (!flist.empty()) {
 				Flight::displaySchedule();
 			}else {
