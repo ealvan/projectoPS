@@ -9,57 +9,87 @@
 
 /* ----FUNCIONES DE LA CLASE Queue (Cola)---- */
 
+//Creacion de una cola , con su id
 Queue::Queue(int queueId){
-	
-	this -> queueNo = queueId;
+    //Asigna el numero
+    this -> queueNo = queueId;
     this -> rear = NULL;
     this -> front = NULL;
 }
 
+//Agregar a una Persona en la cola
 void Queue::enqueue(Person p){
-	
+
+    //Creamos un nodo que servira para registrar a la persona en la cola
     Node* temp = new Node;
 
+    //Asignamos la persona en el nodo
     temp -> person = p;
+    //Espacio libre del siguiente
     temp -> next = NULL;
 
+    //En caso la cabecera de la cola este vacio
+    //Es decir la primera persona que ingresara a la cola
     if(this -> front == NULL){
+
+	//La asigna como cabecera
        this -> front = temp;
+
+    //Sino
     }else{
+	//Lo anexo con el ultimo de la cola
         this -> rear -> next = temp;
     }
+    //Y lo actualiza como ultimo de la cola
     this -> rear = temp;
 }
 
+//Sacar de la cola
 void Queue::dequeue(){
 
+    //Creamos un nodo que servira para eliminar a la persona mas antigua de la cola
     Node* temp = new Node;
 
+    	//Asignamos nuestro nodo como la cabecera de la cola
 	temp = this -> front;
-
+	//Asignamos el siguiente como nueva cabecera,
+	//Eliminando a la antigua cabecera
 	this -> front = this -> front -> next;
 
+	//Eliminamos nuestro nodo
 	delete temp;
 }
 
+//Mostrar Cola
 void Queue::display(int num){
 	
-
+	//Iteramos la lista de colas
 	for (std::list<Queue>::iterator i = qlist.begin(); i != qlist.end(); ++i) {
+		//Compara con el numero de cola
 		if(num == i -> queueNo){
+			//Creamos un nodo
 			Node* p = new Node;
+			//Y le asignamos la cabecera
 			p = i -> front;
 
+			//Si la cabecera esta vacia
+			//Quiere decir q la cola esta vacia
 			if(i -> front == NULL){
 				cout<<"\nCola vacía.\n";
+
+			//Sino muestra
 			}else{
+				//Informacion de los pasajeros
 				cout << "\nPasajeros esperando en cola: " << endl;
 				cout << left << setw(15) << 
 				"Passport" << left << setw(15) << 
 				"Name" << left << setw(15) << 
 				"Surame" << endl;
+				//Mientras que el nodo en el que estemos no sea nulo
 				while(p!=NULL){
+					//Mostramos
 					cout << left << setw(15) << p -> person.getPassport() << left << setw(15) << p -> person.getName() << left << setw(15) << p -> person.getSurname() << endl;
+					//Y avanzamos de Nodo
 					p = p -> next;
 				}
 			}
@@ -69,28 +99,33 @@ void Queue::display(int num){
     
 
 }
-
+//Obtener la persona mas antigua de la cola
 Person Queue::oldest(){
-	
+	//Retorna la cabecera de la cola
 	return this -> front -> person;
 }
 
+//Verifica si la cola esta vacia
 bool Queue::isEmpty(){
+//Si la cabecera es nula y el final tambien
  if(this -> front == NULL && this -> rear == NULL){
-  return true;
+  	//Esta vacia
+	 return true;
  }
- 
+ //No esta vacia
  return false;
 } 
 
 
 /* ----FUNCIONES DE LA CLASE Menu---- */
 
+//Muestra el menu
 void Menu::displayMenu(){
 	
 	int selection;	// Eleccion hecha por el usuario en el Menu
 	string temp; // Variable para almacenar lo ingresado por el usuario
 	
+	//Opciones
 	do{
 			cout << "-----------------------------------------------";
 			
@@ -108,6 +143,7 @@ void Menu::displayMenu(){
 			cout << "---------------------------------------------- - "<< endl;
 
 			cout << "Introduzca el número de una opción de menú:";
+			//Ingresa
 			cin >> temp; 
 			
 			// COmprueba la validez de lo ingresado por el usuario
@@ -115,16 +151,19 @@ void Menu::displayMenu(){
 				cout << "Por favor introduzca un numero!" << endl;
 				cin.clear();
 				cin.ignore(256,'\n');
+				//Vuelve a ingresar
 				cin >> temp;
 			}
 			cout << endl;
-			
+			//Convierte el string ingresado a entero
 			selection = atoi(temp.c_str());
+			//Manda ese numero a select para que ejecute segun lo mandado
 			select(selection);
 	
 	}while(true);
 }
 
+//Ejecuta segun la eleccion mandada
 void  Menu::select(int selection){
 	
 	Flight f; // Objeto Flight (Vuelo)
