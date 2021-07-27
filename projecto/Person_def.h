@@ -4,9 +4,11 @@
 class Person //Clase para controlar las funciones del Pasajero				
 {
 	private:
-	
+		//Numero de pasaporte , telefono (NUmeros)	
 		int passportNo, tel;
+		//Registro de vuelos en los que ha estado (a traves de los numeros de vuelos)
 		list<int> flights;
+		//Informacion de la persona (Como string)
 		string name, surname, nationallity, address;		
 	
 	public:
