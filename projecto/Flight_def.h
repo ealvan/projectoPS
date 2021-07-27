@@ -10,9 +10,13 @@ struct Time //Estructura para controlar los horarios de LLegada y de Salida
 class Flight //Clase para controlar las funciones disponibles de un vuelo
 {				
 	private:
-	
+		//Numero de vuelo, costo , asientos , asientos reservados
 		int flightNo, cost, seats, booked_seats;
-		string from, to, plane_type;	
+
+		//Destino , llegada y tipo de avion (guardados en string)
+		string from, to, plane_type;
+
+		//Horario de salidad y de llegada (Guardados en estructura Time)	
 		Time t_leave, t_arrive;
 		
 	public:
