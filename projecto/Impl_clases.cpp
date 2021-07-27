@@ -169,15 +169,20 @@ void  Menu::select(int selection){
 	Flight f; // Objeto Flight (Vuelo)
 	Person p; // Objeto Person (Persona)
 	string temp; // Variable para almacenar lo ingresado por el usuario
-	
+
+	//Bloque de elecciones	
 	switch(selection){
+		//Anadir un Vuelo
 		case 1:
 			f.addFlight();
 			break;
+		//Eliminar un vuelo
 		case 2:
+			//En caso la lista de vuelos no este vacia
 			if (!flist.empty()) {
 				cout << "Ingrese el número de vuelo que desea eliminar:"; cin >> temp;
 				cout << endl;
+				//Comprueba que sea un numero
 				while (! checkNumber (temp)) {
 					cout << "¡El número de vuelo debe ser un número!" << endl;
 					cin.clear();
@@ -185,40 +190,59 @@ void  Menu::select(int selection){
 					cin >> temp;
 					cout << endl;
 				}
-				
+				//Elimina el vuelo (convierte de string a int)
 				Flight::deleteFlight( atoi(temp.c_str()) );
+			//Cuando la lista de vuelos este vacia
 			}else {
 				cout << "No hay vuelos para eliminar" << endl;
 			}
 						
 			break;
+		//Mostrar todos los vuelos registrados en el sistema
 		case 3:
+			//En caso la lista de vuelos no este vacia
 			if (!flist.empty()) {
+				//Muestra
 				Flight::displaySchedule();
+			//Cuando la lista de vuelos este vacia
 			}else {
 				cout << "¡No hay vuelos programados!" << endl;
 			}
 			break;
+		//Mostra la informacion de un vuelo en especifico
 		case 4:
+			//En caso la lista de vuelos no este vacia
 			if (!flist.empty()) {
+				//Ingresa el numero
 				cout << "Introduzca el número de vuelo:";
 				cin >> temp; cout << endl;
+				//Comprueba que sea un numero
 				while (!checkNumber(temp)){
 					cout << "¡El número de vuelo debe ser un número!" << endl; 
 					cin.clear();
 					cin.ignore(256,'\n');
+					//Vuelve a ingresar
 					cin >> temp;
 					cout << endl;
 				}
+				//Muestra la informacion del vuelo(convierte de string a int)
 				Flight::displayFlightInfo( atoi(temp.c_str()) );
+			//Cuando la lista de vuelos este vacia
 			}else {
 				cout << "¡No hay vuelos programados!" << endl;
 			}			
 			break;
+		//Muestra la informacion de una persona en especifico
 		case 5:
+			//Cuando la lista de persona no este vacia
 			if (!plist.empty()){
+				//Ingresa el pasaporte
 				cout << "Introduzca el número de pasaporte:";
 				cin >> temp;
+				//Llama a la funcion displayInfo
+				//Convirtiendo el string a entero
+				//Si no se puede mostrar retorna falso y se pide otro pasaporte
+				//Si no simplemente muestra
 				while (!Person::displayPersonInfo( atoi(temp.c_str()) )) {
 					cout << "¡Número de pasaporte incorrecto!" << endl;
 					cin.clear();
@@ -226,16 +250,20 @@ void  Menu::select(int selection){
 					cin >> temp;
 					cout << endl;
 				}
+			//Cuanod la lista de personas este vacia
 			}else{
 				cout << "¡No hay clientes registrados en este momento!" << endl;
 			}
 			break;
+		//Reservar un asiento
 		case 6:
 			p.book();
 			break;
+		//Cancelar una reserva
 		case 7:
 			p.cancel();
 			break;
+		//Salir de la aplicacion
 		case 8:
 			Menu::exit_prog();
 			break;
