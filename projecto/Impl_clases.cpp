@@ -273,6 +273,7 @@ void  Menu::select(int selection){
 	
 }
 
+//Salir de la aplicacion
 void Menu::exit_prog(){
 	
 	cout << "¡Gracias por usar nuestro sistema! \n";
@@ -280,13 +281,19 @@ void Menu::exit_prog(){
 }
 
 /* ----FUNCIONES DE LA CLASE Flight (Vuelo)---- */
+
+//Escribir un vuelo en nuestro reporte de vuelos
 void writeFlight(string line){
+	//Abre
 	fstream f;
 	f.open("reportFlights.csv",  std::ios_base::app);
 	if(f.good()){
+		//Escribe
 		f << line + "\n";
 	}
 }
+
+//Añadir Vuelo
 void Flight::addFlight(){ 
 	string store = "";
 	/* ----INICIALIZA VARIABLES----*/
@@ -314,20 +321,30 @@ void Flight::addFlight(){
 		flag = true;
 		
 		// Comprueba lo ingresado
+		// Si no es numero
 		if (!checkNumber(temp)){
 			cout << "Introduzca un número de vuelo válido! " << endl;
+			//Cambia flag
 			flag = false;
 			getline(cin, temp);
+		//Comprueba que el vuelo no sea repetido (Convierte de string a entero lo ingresado)
 		}else if (Flight::flightExists( atoi(temp.c_str()) )) {
 			cout << "¡Este vuelo ya existe!" << endl;
 			cout << "Introduzca un número de vuelo válido!:" << endl;
+			//Cambia flag
+			//ya que el vuelo es repetido
 			flag = false;
 			getline(cin, temp);
+		//Cuando cumple las condiciones
 		}else {
+			//Flag true
 			flag = true;
+			//Asigna el numero de vuelo
+			//COnvirtiendo el string a entero
 			this -> flightNo = atoi(temp.c_str());
 			store += temp;
 		}
+	//Ejecuta esto hasta que el flag salga con verdadero
 	}while(!flag);
 	
 	/* --SALIDA-- */
@@ -336,15 +353,21 @@ void Flight::addFlight(){
 	
 	// Comprueba lo ingresado
 	LOOP:do{
+		//Ingresa la salidad
 		getline(cin, temp);
+		//Comprueba el tamano y que solo sean letras lo ingresado
 		if ( (temp.length() <= 10) && (checkString(temp)) ){
+			//Asigna
 			this -> from = temp;
 			store+=","+temp;
+			//Cambia el flag
 			flag = true;
+		//En caso no sea una salida correcta
 		}else {
 			cout << "Introduzca una ciudad de salida válida!: ";
 			goto LOOP;
 		}
+	//Ejecuta esto hasta que el flag sea verdadero
 	}while(!flag);
 	
 	/* --DESTINO-- */
@@ -353,15 +376,21 @@ void Flight::addFlight(){
 	
 	// Comprueba lo ingresado
 	LOOP2:do{
+		//Ingresa
 		getline(cin, temp);
+		//Comprueba el tamano ,que solo sean letras lo ingresadoy q no sea el mismo destino
 		if ( (temp.length() <= 10) && (checkString(temp)) && (temp.compare(this -> from)) ){
+			//Asigna
 			this -> to = temp;
+			//Cambia el flag
 			flag = true;
 			store +=","+ temp;
+		//En caso no sea un destino correcto
 		}else{
 			cout << "Introduzca una ciudad de destino válida! ";
 			goto LOOP2;
 		}
+	//Ejecuta esto hasta que el flag sea verdadero
 	}while(!flag);
 	
 	/* --HORA DE SALIDA-- */
@@ -370,39 +399,46 @@ void Flight::addFlight(){
 	
 	//Comprueba lo ingresado
 	LOOP3:do{
+		//Ingresa
 		getline(cin, temp);
-		
+		//Comprueba que el tamano sea 5 y que sean solo numeros
 		if( temp.length() != 5 || !checkTime(temp) ){
 			cout << "Introduzca una hora de embarque válida (por ejemplo, 19:40)! ";
 			goto LOOP3;			 
 		}
-		
+		//Ingresa
 		char t_temp[temp.length()];
 		
 		strcpy(t_temp, temp.c_str());
 		
 		//Divide el string
 		pch = strtok(t_temp, ":");
-		
+		//Comprueba si fue almacenado
 		while(pch != NULL){
+			//Divide 
 			fields.push_back(pch); 
 			pch = strtok(NULL, ":");
 		}
 		
+		//Asigna
 		hour = atoi(fields[0].c_str()); 
 		min = atoi(fields[1].c_str()); 
 		
 		//Comprueba el horario
 		if ((hour >=0 && hour<=23) && (min>=0 && min <=59)){ 
+			//Asigna
 			this -> t_leave.hour = hour; 
 			this -> t_leave.min = min; 
 			store += ","+to_string(hour)+":"+to_string(min);
+			//Alterna el flag
 			flag = true;
+		//En caso no sea un horario valido
 		}else{
 			cout << "Introduzca una hora de embarque válida (por ejemplo, 19:40).";
 			fields.clear();		
 		}	
-		
+	//Ejecuta esto hasta que el flag sea verdadero
+	
 	}while(!flag); 
 	
 	/* --HORARIO DE LLEGADA-- */
@@ -412,13 +448,14 @@ void Flight::addFlight(){
 	
 	// Revisa lo ingresado
 	LOOP4:do{
+		//Ingresa
 		getline(cin, temp);
-		
+		//Comprueba el tamano y qsean solo numeros
 		if( temp.length() > 5 || !checkTime(temp) ){
 			cout << "Introduzca una hora de embarque válida (por ejemplo, 19:40).";
 			goto LOOP4;			 
 		}
-		
+		//Ingresa
 		char t_temp[temp.length()];
 		
 		strcpy(t_temp, temp.c_str());
@@ -426,51 +463,62 @@ void Flight::addFlight(){
 		//Divide el string
 		pch = strtok(t_temp, ":");
 		
+		//COmprueba si fue almacenado
 		while(pch != NULL){
 			fields.push_back(pch); 
 			pch = strtok(NULL, ":");
 		}
-		
+		//Asigna
 		hour = atoi(fields[0].c_str());
 		min = atoi(fields[1].c_str());
 		
 		//Comprueba la validez del horario
 		if ((hour >=0 && hour<=23) && (min>=0 && min <=59)){ 
+			//Asgina
 			this -> t_arrive.hour = hour; 
 			this -> t_arrive.min = min; 
+			//Alterna el flag
 			flag = true;
 			store += ","+to_string(hour)+":"+to_string(min);
+		//En caso no sea un horario valido
 		}else{
 			cout << "Introduzca una hora de llegada válida (por ejemplo, 19:40).";
 			fields.clear();		
 		}	
-		
+	//Ejecuta esto hasta que el flag sea verdadero
 	}while(!flag); 
 	
 	/* --PRECIO DEL TICKET-- */
 	cout << "Precio de la entrada:";
 	LOOP5:do{
-		
+		//Obtiene
 		getline(cin, temp);
 		flag = true;
 		
-		//Comprueba lo ingresado
+		//Comprueba lo ingresado sea solo numeros
 		if (!checkNumber(temp)){
 			cout << "Por favor, inserte un precio de entrada válido." << endl;
+			//Alterna el flag
 			flag = false;
 			goto LOOP5;
+		//Si solo son numeros
 		}else{
+			//Flag correcto
 			flag = true;
+			//Almacena
 			this -> cost = atoi(temp.c_str());
 			store += ","+temp;
 		}
+	//Ejecuta esto hasta que el flag sea verdadero
 	}while(!flag);
 	
 	/* --TIPO DE AVION-- */
 	cout << "Tipo de avión:";
 	getline(cin, this -> plane_type);
+	//Mientras q el tipo de avion todavia no sea ingresado
 	while(this -> plane_type.empty()){
 		cout << "Introduzca un tipo de avión válido!" << endl;
+		//Vuelve a ingresar
 		getline(cin, this -> plane_type);
 	}
 	store += ","+this->plane_type;
@@ -478,43 +526,57 @@ void Flight::addFlight(){
 	/* --NUMERO DE ASIENTOS-- */
 	cout << "Numero de asientos: ";
 	LOOP6:do{
-		
+		//Ingresa
 		getline(cin, temp);
 		flag = true;
 		
-		//Comprueba lo Ingresado
+		//Comprueba lo Ingresado sea solo numeros
 		if (!checkNumber(temp)){
 			cout << "Por favor, inserte un número válido de asientos!" << endl;
+			//Alterna el flag
 			flag = false;
 			goto LOOP6;
+		//Si solo son numeros
 		}else{
+			//Alterna el flag
 			flag = true;
+			//Asigna , convierte de string a entero
 			this -> seats = atoi(temp.c_str());
 			store += ","+temp;
 		}
+	//Ejecuta esto hasta que el flag sea verdadero
 	}while(!flag);
 	
 	/* --NUMERO DE ASIENTOS RESERVADOS-- */
 	cout << "Cantidad de asientos reservados: ";
 	LOOP7:do{
-		
+		//Ingresa
 		getline(cin, temp);
 		flag = true;
 		
-		//Comprueba lo ingresado
+		//Comprueba lo ingresado sea solo numeros
 		if (!checkNumber(temp)){
 			cout << "Introduzca un número válido de asientos reservados!" << endl;
+			//Alterna el flag
 			flag = false;
 			goto LOOP7;
+		//Comprueba que el numero de asientos este en el limite de asientos
+		//(Convierte de string a entero)
 		}else if ( atoi(temp.c_str()) > this -> seats ) {
 			cout << "¡Los asientos reservados deben ser menores que los asientos del avión!" << endl;
+			//Alterna flag
 			flag = false;
 			goto LOOP7;
+		//Cuando los datos sean correctos
 		}else {
+			//ALterna el flag
 			flag = true;
+			//Almacena
+			//(Convierte de string a entero)
 			this -> booked_seats = atoi(temp.c_str());
 			store += ","+temp;
 		}
+	//Ejecuta esto mientras que el flag no sea verdadero
 	}while(!flag);
 	cout << endl;
 	
@@ -525,6 +587,7 @@ void Flight::addFlight(){
 	qlist.push_back(q); //Anade el objetos a qlist (Lista de Cola)
 	
 	cout << "N° de vuelo: "<< this -> flightNo << " fue agregado exitosamente!" << endl;
+	//Escribe en nuestro reporte de vuelo
 	writeFlight(store);
 }
 
