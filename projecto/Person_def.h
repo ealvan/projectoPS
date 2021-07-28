@@ -13,7 +13,7 @@ class Person //Clase para controlar las funciones del Pasajero
 	
 	public:
 		/* --RESERVAR VUELO-- */
-		void book(); //Reservar Vuelo para cada cliente (Opcion del Menu Νο 6)
+		void book(); //Reservar Vuelo para el cliente (Opcion del Menu Νο 6)
 		void bookFromQueue(int num); //Reservar Vuelo para el cliente mas antiguo 
 					    //(Llamado SOLO cuando una reservacion es cancelada)
 		void cancel(); //Cancela una Reservacion (Opcion del Menu Νο 7)
