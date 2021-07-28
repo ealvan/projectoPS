@@ -781,6 +781,7 @@ bool Flight::checkForSeats(int num){
 
 /* ----FUNCIONES DE LA CLASE Person---- */	
 
+//Reservar un vuelo
 void Person::book(){
 	
 	/* ----INICIALIZA VARIABLES----*/
@@ -791,8 +792,10 @@ void Person::book(){
 	/* --VARIABLES PARA VUELOS NO DIRECTOS-- */
 	int counter = 1; // Almacena la cantidad(>=2) de los vuelos no directos
 	string choice; // Almacena la eleccion del usuario para anadir o no mas vuelos a su reservacion
+	//HOrarios de salida y llegada
 	Time tArriving; 
-	Time tLeaving; 
+	Time tLeaving;
+       //Destino de salida y llegada	
 	string Departure; 
 	string Destination; 
 	list<int> nums; // Guarda los numeros de los vuelos
@@ -805,6 +808,7 @@ void Person::book(){
 	cin.clear();
 	cin.ignore(256,'\n');
 	
+	//En caso la lista de vuelos este vacia
 	if (!flist.empty()) {
 		cout << "Inserte 'y' (si) para un nuevo cliente o 'n' (no) para un cliente existente.";
 		getline(cin, choice);
@@ -821,12 +825,17 @@ void Person::book(){
 			// Comprueba lo ingresado
 			LOOP8:do{
 				getline(cin, this -> name);
+				//COmprueba tamano y si son solo letras
 				if ( (this -> name.length() <= 10) && (checkString(this -> name)) ){
+					//Cambia flag a true
 					flag = true;
+				//Si no
 				}else {
+					//Lo deja en false
 					cout << "¡Por favor inserte un nombre válido! ";
 					goto LOOP8;
 				}
+			//Ejecuta esto hasta que sea verderos
 			}while(!flag);
 			
 			/* --APELLIDO-- */
@@ -836,12 +845,17 @@ void Person::book(){
 			// Comprueba lo ingresado
 			LOOP9:do{
 				getline(cin, this -> surname);
+				//COmprueba tamano y si son solo letras
 				if ( (this -> surname.length() <= 10) && (checkString(this -> surname)) ){
+					 //Cambia flag a true
 					flag = true;
+				//Sino
 				}else {
+					//Deja en false
 					cout << "Introduzca un apellido válido! ";
 					goto LOOP9;
 				}
+			//Ejecuta esto hasta que sea verderos
 			}while(!flag);
 			
 			/* --NUMERO DE PASAPORTE-- */
@@ -852,19 +866,27 @@ void Person::book(){
 				
 				getline(cin, temp);
 				flag = true;
-				
+				//Comprueba que solo sean numeros
 				if (!checkNumber(temp)){
 					cout << "Introduzca un número de pasaporte válido! " << endl;
+					//Alterna el flag
 					flag = false;
 					goto LOOP10;
+				//Comprueba que sea un pasaporte unico
+				//Convierte de string a entero
 				}else if (!Person::uniquePass( atoi(temp.c_str()) )) {
 					cout << "Verifique la validez de su número de pasaporte" << endl;
+					//ALterna flag
 					flag = false;
 					goto LOOP10;
+				//Datos validos
 				}else{
+					//Flag Verdadero
 					flag = true;
+					//Asign
 					this -> passportNo = atoi(temp.c_str());
-				}	
+				}
+			//Asigna esto hata que sea verdadero	
 			}while(!flag);
 			
 			/* --NACIONALIDAD-- */
@@ -875,13 +897,16 @@ void Person::book(){
 			LOOP11:do{
 				
 				getline(cin, this -> nationallity);
-				
+				//COmprueba el tamano y si son solo letras
 				if ( (this -> nationallity.length() <= 10) && (checkString(this -> nationallity)) ){
 					flag = true;
+				//Si no
 				}else {
+					//Flag continua en false
 					cout << "Introduzca una nacionalidad válida! ";
 					goto LOOP11;
 				}
+			//Ejecuta esto hasta q flag sea verdadero
 			}while(!flag);
 			
 			/* --DIRECCION-- */
@@ -892,27 +917,36 @@ void Person::book(){
 			cout << "Teléfono: "; 
 			getline(cin, temp);
 			
-			// Comprueba lo Ingresado
+			// Comprueba lo Ingresado , osea solo numeros
 			while (!checkNumber(temp)) {
 				cout << "Introduzca un número de teléfono válido!" << endl;
 				getline(cin, temp);
 			}
+			//Asigna (convierte)
 			this -> tel = atoi(temp.c_str());
+
+			
 		}else { // Cliente existente
 			cout << "Por favor dénos su número de pasaporte: ";
 			getline(cin, temp);
 			
-			// Comprueba lo Ingresado
+			// Comprueba lo Ingresado, es decir solo numeros
 			while(!checkNumber(temp)){
 				cout << "Introduzca un número de pasaporte válido!" << endl;
+				//ALterna flag
 				flag = false;
 				getline(cin, temp);
 			}
 				
 			// Comprueba si el pasaporte es NO unico
+			// (Convierte de string a int)
 			if ( !(Person::uniquePass( atoi(temp.c_str()) ))) {
-					for (std::list<Person>::iterator i = plist.begin(); i != plist.end(); ++i){
-						if (atoi(temp.c_str()) == i -> passportNo) {
+				//Itera la lista de Personas	
+				for (std::list<Person>::iterator i = plist.begin(); i != plist.end(); ++i){
+					//Encuentra a la persona
+					//(Convierte)	
+					if (atoi(temp.c_str()) == i -> passportNo) {
+							//Copia la informacion de la persona
 							this -> name = i -> name;
 							this -> surname = i -> surname;
 							this -> passportNo = i -> passportNo;
@@ -920,7 +954,9 @@ void Person::book(){
 							this -> address = i -> address;
 							this -> tel = i -> tel;
 							
+							//Vuelve a iterar
 							for (std::list<int>::iterator i2 = i->flights.begin(); i2 != i->flights.end(); ++i2) {
+								//Agrega a vuelos
 								this -> flights.push_back(*i2);
 							}
 							
@@ -930,6 +966,7 @@ void Person::book(){
 							break;
 						}
 					}
+			//En caso no sea un pasaportevalido
 			}else {
 				cout << "¡Número de pasaporte incorrecto!" << endl;
 				return;
@@ -946,10 +983,14 @@ void Person::book(){
 		flag = true;
 		
 		// Comprueba lo Ingresado
+		// SI es solo numeros y si
+		// El numero del vuelo existe
+		// (Convierte de string a etnero)
 		while ( !checkNumber(temp) && !Flight::flightExists(atoi(temp.c_str())) ) {
 			cout << "Introduzca un número de vuelo válido! " << endl;
 			getline(cin, temp);
 		}
+		//Convierte de string a entero
 		num = atoi(temp.c_str());
 		
 		/*
