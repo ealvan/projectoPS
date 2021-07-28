@@ -733,7 +733,7 @@ void Flight::displaySchedule(){
 }
 
 //Reservar ASiento
-//Con numero de vuelo y el asiento
+//Con numero de vuelo y el numero de asientosasiento
 void Flight::resSeat(int num, int val){
 	//Itera la lista de vuelos
 	for (std::list<Flight>::iterator i = flist.begin(); i != flist.end(); ++i){	
@@ -1000,8 +1000,10 @@ void Person::book(){
 		*/
 		
 		//VUELO DIRECTO
-		if(Flight::checkForSeats(num)){ //Comprueba por reservaciones		
+		if(Flight::checkForSeats(num)){ //Comprueba por reservaciones disponibles
+			//Agrega a la lista de vuelos		
 			this -> flights.push_back(num);
+			//Reserva el asiento (solo 1 asiento)
 			Flight::resSeat(num,1);
 			cout << "Tu vuelo con N°: " << num << " se reservó con éxito." << endl;
 		
@@ -1018,21 +1020,31 @@ void Person::book(){
 				getline(cin, temp);
 				
 				//Comprueba lo Ingresado
+				//SI es solo numeros y si existe el vuelo
 				while ( !checkNumber(temp) && !Flight::flightExists(atoi(temp.c_str())) ) {
 					cout << "Introduzca un número de vuelo válido!" << endl;
 					cin >> temp;
 				}
 				
+				//Convierte de string a entero
 				num = atoi(temp.c_str());	
 								
 				if (counter > 1){ // Ingresa solo si el usuario ha ingresado  2 o mas vuelos	
 				
 					// Almacena el horario de la llegada y salida , y la ciudad de la llegada y salida
+					//Itera la lista de vuelos
 					for (std::list<Flight>::iterator i2 = flist.begin(); i2 != flist.end(); ++i2) {
-						if (*i1 == i2 -> getFlightNo()) {					
+						//Compara el numero ded vuelos
+						//i1 empezo en el 1ero
+						//y i2 esta iterando
+						//Compara si es que este sera el siguiente del  1ero
+						if (*i1 == i2 -> getFlightNo()) {
+							//Asigna la llegada y el destino					
 							tArriving = i2 -> getArrivingTime();
 							Destination = i2 -> getDestination();
+						//En caso no continuedel 1er vuelo
 						}else if (num == i2 -> getFlightNo()) {
+							//Asigna el horario de salidad y la salida
 							tLeaving = i2 -> getLeavingTime();
 							Departure = i2 -> getDeparture();
 						}
@@ -1046,13 +1058,14 @@ void Person::book(){
 				}
 				
 				nums.push_back(num); // Anade el numero del vuelo		
+				//Avanzla la iteracion de i1
 				i1++;
-				
+				//Pregunta si quiere anadir otro vuelo
 				if(counter >= 2){ 
 					cout << "¿Desea agregar más números de vuelo? (y/n)"; 
 					getline(cin, choice);
 				}
-				
+				//AUmenta el contador
 				counter++; 
 			} 
 			
@@ -1060,13 +1073,17 @@ void Person::book(){
 			// COmprueba por puestos en el vuelo elegido
 			// Y anade todos los numeros de los vuelos al nodo especifico de la lista de los vuelos
 			for (std::list<int>::iterator i = nums.begin(); i != nums.end(); ++i){
+				//Comprueba si se pueden asientos
 				flag = Flight::checkForSeats(*i) and flag;
+				//Anade a la lista de vuelos
 				this -> flights.push_back(*i);
 			}
 			
 			//Ingresa SOLO si hay asientos disponibles y se reserva un asiento para cada vuelo elegio
 			if(flag){
+				//Itera
 				for (std::list<int>::iterator i = nums.begin(); i != nums.end(); ++i){				
+					//Reserva 1 asiento
 					Flight::resSeat(*i,1);
 				}
 				cout << "Sus vuelos se reservaron correctamente." << endl;
@@ -1074,10 +1091,13 @@ void Person::book(){
 			}else{
 				cout << endl;
 				cout << "Algunos de los vuelos que insertó estaban sobre reservados." << endl;
-				
+				//Itera la lista 1 de vuelos
 				for (std::list<int>::iterator i = nums.begin(); i != nums.end(); ++i){
+					//Itera la 2da lista (Osea de colas)
 					for (std::list<Queue>::iterator i2 = qlist.begin(); i2 != qlist.end(); ++i2){
+						//Compara si corresponde el vuelo
 						if( *i == i2 -> getNo()){
+							//Lo agrega a la cola
 							i2 -> enqueue(*this);
 						}
 					}
@@ -1085,22 +1105,26 @@ void Person::book(){
 				cout << "Lo hemos agregado en las colas para cada uno de estos vuelos." << endl;
 			}
 		}
-		plist.push_back(*this); //Anade el objeto a plist
+		plist.push_back(*this); //Anade el objeto a la lista de personas del vuelo
 	}else{
 		cout << "No hay vuelos disponibles en este momento." << endl;
 		return;
 	}	
 }
 
+//Cancelar vuelo para el cliente mas antido
 void Person::bookFromQueue(int num){  //Es llamado solo desde cancel()
 	
 	bool flag = true;
-	Person queueFront; //Objeto del cilente que fue el ultimo en agregar
+	Person queueFront; //Objeto del cilente que se encuentra al principio de la cola
 
 	// Encuentra al cliente mas antiguo
 	for (std::list<Queue>::iterator it = qlist.begin(); it != qlist.end(); ++it){
+		//Cimpara
 		if (num == it -> getNo() ){
+			//En caso no este vacio
 			if( !(it -> isEmpty()) ){
+				//Cambia de cabecer
 				queueFront = it -> oldest();
 				break;
 			}else{
@@ -1124,13 +1148,19 @@ void Person::bookFromQueue(int num){  //Es llamado solo desde cancel()
 			
 			// Lo elimina de las colas
 			for (std::list<Queue>::iterator i2 = qlist.begin(); i2 != qlist.end(); ++i2) {				
+				//COmpara con la cola
 				if(*i == i2 -> getNo()){
+					//Obtiene la persona de la frente de la cola
 					p = i2 -> getFront();		
-					while(p != NULL){					
+					while(p != NULL){
+						//Compara que sean la misma persona					
 						if(queueFront.passportNo == p -> person.passportNo){
+							//Lo remueve
 							i2 -> dequeue();
+							//Lo agrega a la lista 1
 							Flight::resSeat(*i,1);	
-						}							
+						}
+						//Avanza						
 						p = p -> next;
 					}
 				}
@@ -1139,29 +1169,31 @@ void Person::bookFromQueue(int num){  //Es llamado solo desde cancel()
 		}	
 	}	
 }
-
+//Cancela la reservacion de un asiento
 void Person::cancel(){
-		
+	//Pasaporte de la persona
+	//y el numero de vuelo	
 	string passport, num; 
 	int counter = 1; //Contador que almacena entradas incorrectas del usuario
 	bool flightFound = false; //Es falso si el cliente ya tiene un asiento reservado en ese vuelo
 	bool isInQueue = false; //Es falso si el cliente ,que sera eliminado,no pertenece
 				// a la cola de cada vuelo
-	
+	//Si la lista de personas del vuelo no  esta vacia
 	if (!plist.empty()) {
 		// Limpia
 		cin.clear();
 		cin.ignore(256,'\n');
-		
+		//INgresa pasaporte
 		cout << "Indíquenos su número de pasaporte: ";
 		getline(cin, passport); cout << endl;
 		
-		// Comprueba lo ingresado
+		// Comprueba lo ingresado si es olo numeros
 		while(!checkNumber(passport)){
 			cout << "Introduzca un número de pasaporte válido." << endl;
 			getline(cin, passport); cout << endl; 
 		}
-		
+		//Busca si se encuentra la persona
+		//y se muestran sus datos
 		while(!Person::displayPersonInfo( atoi(passport.c_str()) )) {
 					
 			//Sale de la apĺicacion si es que se le da un numero de pasaporte incorrecto 5 veces
@@ -1177,15 +1209,17 @@ void Person::cancel(){
 					cout << "Introduzca un número de pasaporte válido!" << endl;
 					getline(cin, passport); cout << endl; 
 				}
-			}			
+			}
+			//Suma si se equivoca una vez			
 			counter++;
 		}
 		
+		//Pide el vuelo
 		cout << "\n¿Qué vuelo desea cancelar (ingrese el número de vuelo)?"; 
 		getline(cin, num);
 		counter = 1;
 		
-		// Comprueba lo ingresado
+		// Comprueba lo ingresado si es solo numeros
 		while(!checkNumber(num)){
 			cout << "Introduzca un número de vuelo válido." << endl;
 			getline(cin, num); cout << endl; 
@@ -1193,21 +1227,27 @@ void Person::cancel(){
 		
 		// Itera atraves de los vuelos del pasajero
 		for (std::list<Person>::iterator i = plist.begin(); i != plist.end(); ++i){
+			//Encuntra el vuelo
 			if (atoi(passport.c_str()) == i -> passportNo) {	
 				
-				// Comprueba lo ingresado y sale si el contado = 5
-				do{										
+				// Comprueba lo ingresado y sale si el contador de errores = 5
+				do{
+					//Itera la lista de vuelo					
 					for (std::list<int>::iterator i2 = (i -> flights).begin(); i2 != (i -> flights).end(); ++i2){
+						//Encuentra el vuelo
 						if (atoi(num.c_str()) == *i2) {
+							//VUelo encontrado
 							flightFound = true;
+							//Lo saca de 
 							i2 = flights.erase(i2); // Elimina el vuelo de la iformacion del pasajero
 							break;
 						}
 					}
-					
+					//Equivoco 5 veces
 					if (counter == 5){
 						cout << "Se dio un número de vuelo incorrecto demasiadas veces.";
 						return;
+					//Si el vuelo no fue encontrado
 					}else if(!flightFound){
 						cout << "¡Por favor verifique su número de vuelo!.";
 						getline(cin, num); cout << endl;
@@ -1217,8 +1257,10 @@ void Person::cancel(){
 						cout << "Introduzca un número de vuelo válido." << endl;
 						getline(cin, num); cout << endl; 
 						}
-					}				
+					}
+					//Numero de veces equivocadas				
 					counter++;
+				//Ejecuta hasta que no sea encontrado
 				}while(!flightFound);
 				break;
 			}
@@ -1226,18 +1268,26 @@ void Person::cancel(){
 		
 		//Elimina al cliente de la colda de vuelos , si es que formaban parte de el
 		for (std::list<Queue>::iterator i = qlist.begin(); i != qlist.end(); ++i){
+			//Encuentra
 			if( atoi(num.c_str()) == i -> getNo() ){
+				//Si es que la cola no esta vacia
 				if(!i -> isEmpty()){
+					//Guarda el nodo y el anterior
 					Node* p = new Node;			
 					Node* previousNode;
+					//Obtiene la cabecera
 					p = i -> getFront();
 					
+					//Mientras q no termine la cola
 					while(p!=NULL){
+						//Encuntra a la persona
 						if (atoi(passport.c_str()) == p -> person.passportNo){
+							//Flag
 							isInQueue = true;
 							
 							//Ingresa si el cliente esta en la 1era posicion
 							if (p == i -> getFront()){
+								//Asigna la nueva cabecer
 								i -> setFront(p -> next);
 								// Ingresa si la cola solo tiene un elemento
 								if (i -> getFront() == i -> getRear()){
@@ -1246,11 +1296,14 @@ void Person::cancel(){
 							}else if(p == i -> getRear()){ // Ingresa si el cliente esta en la ultima posicion de la cola del vuelo
 								previousNode -> next = NULL;								
 							}else{ 
+								//En otro caso simplemente avanza
 								previousNode -> next = p -> next;								
 							}
+							//Elimina
 							delete(p);
 							break;						
 						}
+						//Actualiza los nodos
 						previousNode = p;
 						p = p -> next;
 					}
@@ -1260,8 +1313,9 @@ void Person::cancel(){
 		
 		//Ingresa si el pasajer NO es parte de la actual cola
 		if (!isInQueue){
+			//Elimina el asiento en el vuelo
 			Flight::resSeat(atoi(num.c_str()), -1); 		
-		
+			//ACtualiza la reservacion
 			this -> bookFromQueue(atoi(num.c_str()));
 		}
 		cout << "\n¡Su reserva fue eliminada con éxito! \n" << endl;
@@ -1270,36 +1324,43 @@ void Person::cancel(){
 	}
 }
 
+//Mostrar la informacion de una persona
 bool Person::displayPersonInfo(int passport){
-	
+	//Itera la lista de personas
 	for (std::list<Person>::iterator i = plist.begin(); i != plist.end(); ++i){
-		
+		//Compara si es la persona
 		if(passport == i -> passportNo){
-			
+			//Muestra la informacio
 			cout << "\n\t\t\t\t INFORMACIÓN PERSONAL" << endl << endl;
 			cout << left << setw(15) << "NOMBRE" << left << setw(15) << "APELLIDO" << left << setw(15) << "N° PASAPORTE" << left << setw(15) << "NACIONALIDAD" << left << setw(15) << "DIRECCION" << left << setw(15) << "TELÉFONO" << endl;
 			
 			cout << left << setw(15) << i -> name << left << setw(15) << i -> surname << left << setw(15) << i -> passportNo << left << setw(15) << i -> nationallity << left << setw(15) << i -> address << left << setw(15) << i -> tel << endl << endl;
 			cout << "Su vuelo (s):";
-			
+			//Itera su lista de vuelos
 			for (std::list<int>::iterator i2 = (i -> flights).begin(); i2 != (i -> flights).end(); ++i2){
 				
 				cout << *i2 << "  ";
 			}
 			cout << endl;
+			//Es encontrado
 			return true;
 		}
 	}
 	cout << "No se encontró el número de pasaporte. ¡Revisar otra vez!" << endl;
+	//No es encontrado
 	return false;	
 }
-
+//Comprueba que el pasaporte sea unico
 bool Person::uniquePass(int passport){
+	//Itera la lista de personas
 	for (std::list<Person>::iterator i = plist.begin(); i != plist.end(); ++i){
+		//En caso sea repetido
 		if (passport == i -> getPassport()) {
+			//NO es unico
 			return false;
 		}
 	}
+	//Es unico
 	return true;
 }
 
