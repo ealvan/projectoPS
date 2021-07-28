@@ -593,12 +593,14 @@ void Flight::addFlight(){
 
 void Flight::deleteFlight(int num){
 		
+		//Itera la lista de colas de vuelos
 		for (std::list<Queue>::iterator i = qlist.begin(); i != qlist.end(); ++i){
 			if( num == i -> getNo() ){
 				
 				//Ingresa SI la cola de espera para el vuelo NO esta vacia
 				if (!i -> isEmpty()) {
 					//Elimina el objeto de flist (Lista de vuelos)
+					//Itera la lista de vuelos
 					for (std::list<Flight>::iterator i2 = flist.begin(); i2 != flist.end(); ++i2){
 						if( num == (i2 -> flightNo) ){
 							i2 = flist.erase(i2);
@@ -748,7 +750,7 @@ void Flight::resSeat(int num, int val){
 
 //Comprueba si es que existe un vuelo , ingresando su numero
 bool Flight::flightExists(int num){
-	//Itera
+	//Itera la lista de vuelos
 	for (std::list<Flight>::iterator i = flist.begin(); i != flist.end(); ++i){
 		//Compara
 		if (num == i -> flightNo){
