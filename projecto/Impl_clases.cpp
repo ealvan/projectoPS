@@ -617,19 +617,23 @@ void Flight::deleteFlight(int num){
 		cout << "¡Este número de vuelo no existe!" << endl;
 		return;					
 }
-
+//Mostrar la informacion de un vuelo especifico
 void Flight::displayFlightInfo(int num){
 
 	string l_time, a_time; // Horario de salida y de llegada
+	//Para convertir
 	stringstream convert; 
 	stringstream convert2; 
 	
+	//Itera la lista que tiene los vuelos
 	for (std::list<Flight>::iterator i = flist.begin(); i != flist.end(); ++i) {
+		//Compara el numero ingresado con el numero de vuelo actual
 		if (num == i -> flightNo) {
 				
 			convert.str(std::string()); // Limpia stringstream "convert"
 			convert2.str(std::string()); // Limpia stringstream "convert2"
 			
+			//Convierte horas y minutos de Salida
 			convert << i -> t_leave.hour;
 			convert2 << i -> t_leave.min;		 
 			l_time = convert.str() + ":" + convert2.str();
@@ -637,10 +641,12 @@ void Flight::displayFlightInfo(int num){
 			convert.str(std::string()); // Limpia stringstream "convert"
 			convert2.str(std::string()); // Limpia stringstream "convert2"
 			
+			//Convierte horas y minutos de Llegada
 			convert << i -> t_arrive.hour;
 			convert2 << i -> t_arrive.min;		 
 			a_time = convert.str() + ":" + convert2.str();
 			
+			//Muestra la informacion
 			cout << left << setw(10) << 
 			"VUELO" << left << setw(10) << 
 			"DESDE" << left << setw(10) << 
@@ -662,20 +668,24 @@ void Flight::displayFlightInfo(int num){
 			i -> seats << left << setw(10) << 
 			i -> booked_seats << endl;
 			
+			//Muestra la cola del vuelo segun el numero
 			Queue::display(num);
+			//Termina
 			return;
 		}
 	}	
-	
+	//Cuando no sea un numero valido
 	cout << "Se proporcionó un número de vuelo no válido " << endl;
 }
-
+//Mostrar los vuelos registrados en el sistema
 void Flight::displaySchedule(){
 	
 	string l_time, a_time; // Horario de salida y de llegada
+	//Para convertir
 	stringstream convert; 
 	stringstream convert2; 
 	 
+		//Muestra la informacion del vuelo
 		cout << "\n\t\t\t\t HORARIO DE VUELO" << endl << endl;
 		cout << left << setw(10) << 
 		"VUELO" << left << setw(10) << 
@@ -688,10 +698,12 @@ void Flight::displaySchedule(){
 		"ASIENTOS" << left << setw(10) << 
 		"RESERVADO" << endl;
 		
+		//Itera la lista de vuelos
 		for (std::list<Flight>::iterator i = flist.begin(); i != flist.end(); ++i) {
 				convert.str(std::string());	// Limpia stringstream "convert"
 				convert2.str(std::string());	// Limpia stringstream "convert2"
 				
+				//Convierte las horas y minutos de salidad
 				convert << i -> t_leave.hour;
 				convert2 << i -> t_leave.min;		 
 				l_time = convert.str() + ":" + convert2.str();
@@ -699,10 +711,12 @@ void Flight::displaySchedule(){
 				convert.str(std::string());	// Limpia stringstream "convert"
 				convert2.str(std::string());	// Limpia stringstream "convert2"
 				
+				//Convierte las horas y minutos de llegada
 				convert << i -> t_arrive.hour;
 				convert2 << i -> t_arrive.min;		 
 				a_time = convert.str() + ":" + convert2.str();
 				
+				//Muestra
 				cout << left << setw(10) << 
 				i -> flightNo << left << setw(10) << 
 				i -> from << left << setw(10) << 
@@ -718,33 +732,50 @@ void Flight::displaySchedule(){
 		cout << endl;
 }
 
+//Reservar ASiento
+//Con numero de vuelo y el asiento
 void Flight::resSeat(int num, int val){
+	//Itera la lista de vuelos
 	for (std::list<Flight>::iterator i = flist.begin(); i != flist.end(); ++i){	
+		//Encuentra el vuelo
 		if( num == (i -> flightNo) ){			
+			//Agrega el asiento
 			i -> booked_seats += val ;
 			break;
 		}
 	}	
 }
 
+//Comprueba si es que existe un vuelo , ingresando su numero
 bool Flight::flightExists(int num){
+	//Itera
 	for (std::list<Flight>::iterator i = flist.begin(); i != flist.end(); ++i){
+		//Compara
 		if (num == i -> flightNo){
+			//Encontrado
 			return true;
 		}
 	}
+	//No encontrado
 	return false;
 }
 
+//Verifica si hay asientos disponibles
 bool Flight::checkForSeats(int num){
+	//Itera la lista de vuelos
 	for (std::list<Flight>::iterator i = flist.begin(); i != flist.end(); ++i){		
+		//Encuentra el vuelo
 		if( num == (i -> flightNo) ){
-				if( i -> seats == i -> booked_seats )
+			//COmpara el numero de asientos con los reservados	
+			if( i -> seats == i -> booked_seats )
+					//No dipsonibles
 					return false;
 				else
+					//Si disponibles
 					return true;
 		}
 	}
+	//En caso no encuentre
 	return false;
 }
 
