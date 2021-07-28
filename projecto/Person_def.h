@@ -1,24 +1,27 @@
+//Incluyendo las librerias necesarias
 #include "General_def.h"
 
-class Person //class for managing the functions of a passenger				
+class Person //Clase para controlar las funciones del Pasajero				
 {
 	private:
-	
+		//Numero de pasaporte , telefono (NUmeros)	
 		int passportNo, tel;
+		//Registro de vuelos en los que ha estado (a traves de los numeros de vuelos)
 		list<int> flights;
+		//Informacion de la persona (Como string)
 		string name, surname, nationallity, address;		
 	
 	public:
-		/* --BOOK FLIGHT-- */
-		void book(); // book flight for each customer (Menu Option Νο 6)
-		void bookFromQueue(int num); // book flight for the oldest customer in 
-					    // (call ONLY when a reservation is cancelled)
-		void cancel(); //cancel a reservation (Menu Option Νο 7)
+		/* --RESERVAR VUELO-- */
+		void book(); //Reservar Vuelo para el cliente (Opcion del Menu Νο 6)
+		void bookFromQueue(int num); //Reservar Vuelo para el cliente mas antiguo 
+					    //(Llamado SOLO cuando una reservacion es cancelada)
+		void cancel(); //Cancela una Reservacion (Opcion del Menu Νο 7)
 		
-		/* --SHOW PASSENGER'S INFO-- */
+		/* --MUESTRA INFORMACION DEL PASAJERO-- */
 		static bool displayPersonInfo(int passport);
 		
-		/* --CHECHKER FOR UNIQUE PASSPORT-- */
+		/* --VERIFICADOR DE PASAPORTE UNICO-- */
 		static bool uniquePass(int passport);
 		
 		/* --GETTERS-- */

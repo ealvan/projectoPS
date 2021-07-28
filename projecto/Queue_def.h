@@ -1,39 +1,42 @@
+//Incluyendo las librerias necesarias
 #include "General_def.h"
 
-
-
-struct Node //structure for managing each flight's queue
+struct Node //Estructura para controlar cada cola de vuelos
 {
+    //La persona registrada en la cola del vuelo
     Person person;
+    //La persona que esta despues de la actual de la cola del vuelo
     Node* next;
 };
 
-class Queue // class that stores passengers on each flight's queue
+class Queue //Clase se que alamcena a los pasajeros en la cola de cada vuelo
 {
 
     private:
-
+	//Numero de la cola
 	int queueNo;
+	//Nodo que almacena a la ultima Persona en la cola
         Node* rear;
+	//Nodo que almacena a la 1era persona en la cola
         Node* front;	
 	
 	public:
-		/* --CREATE NEW QUEUE-- */
-        Queue(int queueId); // queueID is the same as the flight number for each flight
+		/* --CREA UNA NUEVA FILA-- */
+        Queue(int queueId); // queueID es el mismo que el numero de vuelo para cada vuelo
 		
-		/* --ADD/REMOVE ELEMENTS-- */
-        void enqueue(Person p); // add a new passenger
-        void dequeue(); // remove the passenger add last 
+		/* --ANADIR O ELIMINAR PASAJEROS-- */
+        void enqueue(Person p); //Agrega a un pasajero a una cola
+        void dequeue(); // Elimina al ultimo pasajero agregado
 		
-		/* --ΠΡΟΒΟΛΗ ΣΤΟΙΧΕΙΩΝ ΟΥΡΑΣ-- */
-		static void display(int num); //εμφανίζει τους πελάτες, που βρίσκονται κατοχυρωμένοι 
-									 //στην ουρά αναμονής της εκάστοτε πτήσης
+		/* --Visualizacion de la cola y pasajeros-- */
+		static void display(int num); //muestra a un cliente registrado 
+						//en la cola de espera de cada vuelo
 
-		/* --ΕΠΙΣΤΡΟΦΗ ΑΡΧΑΙΟΤΕΡΟΥ ΧΡΗΣΤΗ-- */
-		Person oldest(); //επιστρέφει το αντικέιμενο του αρχαιότερου πελάτη, μέσω της κλάσης Person
+		/* --Retorna el Ultimo Pasajero-- */
+		Person oldest(); //Retorna el Objeto Cliente Mas Antiguo, a traves de la clase Person
 		
-		/* --CHECK FOR EMPTY QUEUE-- */
-		bool isEmpty(); // returns true if queue is empty
+		/* --REVISAR SI FILA ESTA VACIA-- */
+		bool isEmpty(); //Retorna true si la fila esta vacia
 		
 		/* --GETTERS-- */
 		int getNo() { return this -> queueNo; }	
