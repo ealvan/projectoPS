@@ -1,6 +1,6 @@
 //Incluyendo lo necesario
 #include "General_impl.cpp"
-#include <fstream>
+
 /* 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ 
 																IMPLEMENTACION	 
@@ -173,67 +173,110 @@ void  Menu::select(int selection){
 	//Bloque de elecciones	
 	switch(selection){
 		//Anadir un Vuelo
-		case 1:
-			f.addFlight();
+		case 1:{
+				auto start = chrono::high_resolution_clock::now();
+    			ios_base::sync_with_stdio(false);
+    			//code
+				f.addFlight();
+    			auto end = chrono::high_resolution_clock::now();
+    			double time_taken = chrono::duration_cast<chrono::nanoseconds>(end - start).count();
+				time_taken *= 1e-9;
+				writetime(time_taken, "addFlight()");
+			}
 			break;
 		//Eliminar un vuelo
-		case 2:
-			//En caso la lista de vuelos no este vacia
-			if (!flist.empty()) {
-				cout << "Ingrese el número de vuelo que desea eliminar:"; cin >> temp;
-				cout << endl;
-				//Comprueba que sea un numero
-				while (! checkNumber (temp)) {
-					cout << "¡El número de vuelo debe ser un número!" << endl;
-					cin.clear();
-					cin.ignore(256,'\n');
-					cin >> temp;
+		case 2:{
+				//En caso la lista de vuelos no este vacia
+				if (!flist.empty()) {
+					cout << "Ingrese el número de vuelo que desea eliminar:"; cin >> temp;
 					cout << endl;
+					//Comprueba que sea un numero
+					while (! checkNumber (temp)) {
+						cout << "¡El número de vuelo debe ser un número!" << endl;
+						cin.clear();
+						cin.ignore(256,'\n');
+						cin >> temp;
+						cout << endl;
+					}
+					//Elimina el vuelo (convierte de string a int)
+					 
+					
+					auto start = chrono::high_resolution_clock::now();
+					ios_base::sync_with_stdio(false);
+					//code
+					Flight::deleteFlight( atoi(temp.c_str()) );
+					auto end = chrono::high_resolution_clock::now();
+					double time_taken = chrono::duration_cast<chrono::nanoseconds>(end - start).count();
+					time_taken *= 1e-9;
+					writetime(time_taken, "deleteFlight()"); 
+					 
+				//Cuando la lista de vuelos este vacia
+				}else {
+					cout << "No hay vuelos para eliminar" << endl;
 				}
-				//Elimina el vuelo (convierte de string a int)
-				Flight::deleteFlight( atoi(temp.c_str()) );
-			//Cuando la lista de vuelos este vacia
-			}else {
-				cout << "No hay vuelos para eliminar" << endl;
-			}
-						
+			}			
 			break;
 		//Mostrar todos los vuelos registrados en el sistema
 		case 3:
-			//En caso la lista de vuelos no este vacia
-			if (!flist.empty()) {
-				//Muestra
-				Flight::displaySchedule();
-			//Cuando la lista de vuelos este vacia
-			}else {
-				cout << "¡No hay vuelos programados!" << endl;
+			{
+				//En caso la lista de vuelos no este vacia
+				if (!flist.empty()) {
+					clock_t tStart = clock();
+					//Muestra
+					
+					auto start = chrono::high_resolution_clock::now();
+					ios_base::sync_with_stdio(false);
+					//code
+					Flight::displaySchedule();
+					auto end = chrono::high_resolution_clock::now();
+					double time_taken = chrono::duration_cast<chrono::nanoseconds>(end - start).count();
+					time_taken *= 1e-9;
+					writetime(time_taken, "displaySchedule()");					 
+					 
+				//Cuando la lista de vuelos este vacia
+				}else {
+					cout << "¡No hay vuelos programados!" << endl;
+				}
 			}
 			break;
 		//Mostra la informacion de un vuelo en especifico
 		case 4:
-			//En caso la lista de vuelos no este vacia
-			if (!flist.empty()) {
-				//Ingresa el numero
-				cout << "Introduzca el número de vuelo:";
-				cin >> temp; cout << endl;
-				//Comprueba que sea un numero
-				while (!checkNumber(temp)){
-					cout << "¡El número de vuelo debe ser un número!" << endl; 
-					cin.clear();
-					cin.ignore(256,'\n');
-					//Vuelve a ingresar
-					cin >> temp;
-					cout << endl;
+			{
+				//En caso la lista de vuelos no este vacia
+				if (!flist.empty()) {
+					//Ingresa el numero
+					cout << "Introduzca el número de vuelo:";
+					cin >> temp; cout << endl;
+					//Comprueba que sea un numero
+					while (!checkNumber(temp)){
+						cout << "¡El número de vuelo debe ser un número!" << endl; 
+						cin.clear();
+						cin.ignore(256,'\n');
+						//Vuelve a ingresar
+						cin >> temp;
+						cout << endl;
+					}
+					auto start = chrono::high_resolution_clock::now();
+					ios_base::sync_with_stdio(false);
+					//code
+					//Muestra la informacion del vuelo(convierte de string a int)
+					Flight::displayFlightInfo( atoi(temp.c_str()) );
+					auto end = chrono::high_resolution_clock::now();
+					double time_taken = chrono::duration_cast<chrono::nanoseconds>(end - start).count();
+					time_taken *= 1e-9;
+					writetime(time_taken, "displayFlightInfo()");					
+				//Cuando la lista de vuelos este vacia
+				}else {
+					cout << "¡No hay vuelos programados!" << endl;
 				}
-				//Muestra la informacion del vuelo(convierte de string a int)
-				Flight::displayFlightInfo( atoi(temp.c_str()) );
-			//Cuando la lista de vuelos este vacia
-			}else {
-				cout << "¡No hay vuelos programados!" << endl;
 			}			
 			break;
 		//Muestra la informacion de una persona en especifico
 		case 5:
+		{
+			auto start = chrono::high_resolution_clock::now();
+    		ios_base::sync_with_stdio(false);
+    		//code
 			//Cuando la lista de persona no este vacia
 			if (!plist.empty()){
 				//Ingresa el pasaporte
@@ -254,19 +297,53 @@ void  Menu::select(int selection){
 			}else{
 				cout << "¡No hay clientes registrados en este momento!" << endl;
 			}
+    		auto end = chrono::high_resolution_clock::now();
+    		double time_taken = chrono::duration_cast<chrono::nanoseconds>(end - start).count();
+			time_taken *= 1e-9;
+			writetime(time_taken, "displayPersonInfo()");		
+		}
 			break;
 		//Reservar un asiento
 		case 6:
-			p.book();
-			break;
+			{
+				
+				auto start = chrono::high_resolution_clock::now();
+    			ios_base::sync_with_stdio(false);
+    			//code
+				p.book();
+    			auto end = chrono::high_resolution_clock::now();
+    			double time_taken = chrono::duration_cast<chrono::nanoseconds>(end - start).count();
+				time_taken *= 1e-9;
+				writetime(time_taken, "p.book()");
+			}break;
 		//Cancelar una reserva
 		case 7:
-			p.cancel();
-			break;
+		{
+			auto start = chrono::high_resolution_clock::now();
+    			ios_base::sync_with_stdio(false);
+    			//code
+				p.cancel();
+    			auto end = chrono::high_resolution_clock::now();
+    			double time_taken = chrono::duration_cast<chrono::nanoseconds>(end - start).count();
+				time_taken *= 1e-9;
+				writetime(time_taken, "p.cancel()");
+			
+		}
+		break;
 		//Salir de la aplicacion
 		case 8:
-			Menu::exit_prog();
-			break;
+		{
+				auto start = chrono::high_resolution_clock::now();
+    			ios_base::sync_with_stdio(false);
+    			//code
+				Menu::exit_prog();
+    			auto end = chrono::high_resolution_clock::now();
+    			double time_taken = chrono::duration_cast<chrono::nanoseconds>(end - start).count();
+				time_taken *= 1e-9;
+				writetime(time_taken, "Menu::exit_prog()");
+			
+		}
+		break;
 		default:
 			cout << "Selección invalida \n"; 
 	}
@@ -1340,7 +1417,6 @@ bool Person::displayPersonInfo(int passport){
 			cout << "Su vuelo (s):";
 			//Itera su lista de vuelos
 			for (std::list<int>::iterator i2 = (i -> flights).begin(); i2 != (i -> flights).end(); ++i2){
-				
 				cout << *i2 << "  ";
 			}
 			cout << endl;

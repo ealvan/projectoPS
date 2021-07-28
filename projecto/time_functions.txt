@@ -1,0 +1,16 @@
+addFlight()=31.825695
+addFlight()=27.885144
+addFlight()=39.118786
+addFlight()=44.400248
+displaySchedule()=0.007633
+displayFlightInfo()=0.004365
+displayFlightInfo()=0.000447
+displayPersonInfo()=0.000641
+p.book()=37.443224
+displayPersonInfo()=8.326258
+displaySchedule()=0.002361
+displayFlightInfo()=0.004547
+addFlight()=47.312472
+displaySchedule()=0.009629
+displaySchedule()=0.007970
+displayFlightInfo()=0.004396

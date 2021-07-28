@@ -102,7 +102,14 @@ bool checkTime2(Time tLeaving, Time tArriving){	//Comprueba la validez de la hor
 	//Cuando no cumple
 	return false;	
 }
- 
+void writetime(double time, string function){
+	fstream f;
+	f.open("time_functions.txt", ios::ios_base::app);
+	if(f.good()){
+		string line = function+"=" +to_string(time);
+		f << line+"\n";
+	}
+}
 /* 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ 
 																IMPLEMENTACION	 

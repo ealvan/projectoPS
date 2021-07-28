@@ -8,5 +8,8 @@
 #include <sstream> // Para el stringstream (usado para convertirlo en string)
 #include <iomanip> // Para organizar la salida en columnas
 #include <vector>
+#include <time.h> 
+#include <fstream>//para escribir
+#include <chrono>// para medir el tiempo
 using namespace std;
 
