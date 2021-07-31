@@ -76,15 +76,14 @@ void Queue::display(int num){
 			//Quiere decir q la cola esta vacia
 			if(i -> front == NULL){
 				cout<<"\nCola vacía.\n";
-
 			//Sino muestra
 			}else{
 				//Informacion de los pasajeros
 				cout << "\nPasajeros esperando en cola: " << endl;
 				cout << left << setw(15) << 
-				"Passport" << left << setw(15) << 
-				"Name" << left << setw(15) << 
-				"Surame" << endl;
+				"Pasaporte" << left << setw(15) << 
+				"Nombre" << left << setw(15) << 
+				"Apellido" << endl;
 				//Mientras que el nodo en el que estemos no sea nulo
 				while(p!=NULL){
 					//Mostramos
