@@ -50,7 +50,7 @@ void Queue::dequeue(){
     //Creamos un nodo que servira para eliminar a la persona mas antigua de la cola
     Node* temp = new Node;
 
-    	//Asignamos nuestro nodo como la cabecera de la cola
+    //Asignamos nuestro nodo como la cabecera de la cola
 	temp = this -> front;
 	//Asignamos el siguiente como nueva cabecera,
 	//Eliminando a la antigua cabecera
@@ -87,7 +87,10 @@ void Queue::display(int num){
 				//Mientras que el nodo en el que estemos no sea nulo
 				while(p!=NULL){
 					//Mostramos
-					cout << left << setw(15) << p -> person.getPassport() << left << setw(15) << p -> person.getName() << left << setw(15) << p -> person.getSurname() << endl;
+					cout << left << setw(15) << p -> person.getPassport() 
+						<< left << setw(15) << p -> person.getName() 
+						<< left << setw(15) << p -> person.getSurname() 
+						<< endl;
 					//Y avanzamos de Nodo
 					p = p -> next;
 				}
@@ -148,14 +151,14 @@ void Menu::displayMenu(){
 			// COmprueba la validez de lo ingresado por el usuario
 			while (!checkNumber(temp)) {
 				cout << "Por favor introduzca un numero!" << endl;
-				cin.clear();
-				cin.ignore(256,'\n');
+				cin.clear();//borra el indicador de error de cin
+				cin.ignore(256,'\n');// ignora todo de la misma linea
 				//Vuelve a ingresar
 				cin >> temp;
 			}
 			cout << endl;
 			//Convierte el string ingresado a entero
-			selection = atoi(temp.c_str());
+			selection = atoi(temp.c_str());//para integer
 			//Manda ese numero a select para que ejecute segun lo mandado
 			select(selection);
 	
@@ -179,7 +182,7 @@ void  Menu::select(int selection){
 				f.addFlight();
     			auto end = chrono::high_resolution_clock::now();
     			double time_taken = chrono::duration_cast<chrono::nanoseconds>(end - start).count();
-				time_taken *= 1e-9;
+				time_taken *= 1e-9;//cinversor de unidades
 				writetime(time_taken, "addFlight()");
 			}
 			break;
@@ -356,7 +359,7 @@ void Menu::exit_prog(){
 	exit(1); // exit
 }
 
-/* ----FUNCIONES DE LA CLASE Flight (Vuelo)---- */
+/* ---- FUNCIONES DE LA CLASE Flight (Vuelo)---- */
 
 //Escribir un vuelo en nuestro reporte de vuelos
 void writeFlight(string line){
