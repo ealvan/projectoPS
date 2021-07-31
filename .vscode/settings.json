@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "vector": "cpp",
+<<<<<<< HEAD
         "array": "cpp",
         "atomic": "cpp",
         "bit": "cpp",
@@ -49,4 +50,9 @@
         "typeinfo": "cpp"
     },
     "C_Cpp.errorSquiggles": "Disabled"
+=======
+        "chrono": "cpp",
+        "iostream": "cpp"
+    }
+>>>>>>> exp
 }
